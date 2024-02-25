@@ -9,15 +9,56 @@ interface Country {
     population: number;
 }
 
-function getAveragePopulation(): number {
-    // Completar esta función.
-
-    return 0;
+function newData(data: Country) {
+    let newCountry: Country = {
+        name: data.name,
+        population: data.population,
+    }
+    return newCountry
 }
 
-async function fetchData() {
-	
+
+function getAveragePopulation(data: Country[]): number {
+
+    const averagePopulation: Array<number> = []
+
+    data.map((element) => averagePopulation.push(element.population))
+
+    const addition = averagePopulation.reduce((acumulador, currentValue) => acumulador + currentValue, 0)
+
+    const average = Math.round(addition / averagePopulation.length)
+
+    return average
+
 }
+
+
+async function fetchData()  {
+
+    try {
+
+        const response = await fetch(API_BASE_URL)
+        const data = await response.json()
+
+        let result: Country[] = []
+
+        data.forEach((country: Country) => {
+
+            result.push(newData(country))
+        })
+
+        let averagePopulation = getAveragePopulation(result)
+
+        return averagePopulation
+
+
+    } catch (error) {
+
+        return { message: `${error}` }
+    }
+
+}
+
 
 fetchData();
 
