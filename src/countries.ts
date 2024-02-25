@@ -9,6 +9,7 @@ interface Country {
     population: number;
 }
 
+
 function newData(data: Country) {
     let newCountry: Country = {
         name: data.name,
